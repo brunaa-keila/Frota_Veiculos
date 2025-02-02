@@ -12,9 +12,6 @@ O projeto requer o JDK para compilar e rodar a aplicação. O JDK inclui ferrame
 
 - **Download do JDK**: [JDK 11+](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
 
-Após a instalação, verifique a versão do Java com o seguinte comando:
-
-```bash
 java –version
 
 ### 2 ** Coloque seu usuário e senha do seu banco.**
