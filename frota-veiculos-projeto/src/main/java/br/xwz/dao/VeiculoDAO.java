@@ -35,11 +35,11 @@ public class VeiculoDAO {
                 Carro carro = (Carro) veiculo;
                 preparedStatement.setInt(6, carro.getQuantidadePortas());
                 preparedStatement.setString(7, carro.getTipoCombustivel());
-                preparedStatement.setNull(8, Types.INTEGER); // Moto não possui cilindrada
+                preparedStatement.setNull(8, Types.INTEGER); 
             } else if (veiculo instanceof Moto) {
                 Moto moto = (Moto) veiculo;
-                preparedStatement.setNull(6, Types.INTEGER); // Carro não possui cilindrada
-                preparedStatement.setNull(7, Types.VARCHAR); // Carro não tem tipoCombustível
+                preparedStatement.setNull(6, Types.INTEGER); 
+                preparedStatement.setNull(7, Types.VARCHAR); 
                 preparedStatement.setInt(8, moto.getCilindrada());
             }
 
