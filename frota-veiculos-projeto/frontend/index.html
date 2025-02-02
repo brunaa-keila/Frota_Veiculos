@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Veículos</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Filtros -->
+        <div class="filters">
+            <input type="text" id="modelo" placeholder="Modelo">
+            <input type="text" id="cor" placeholder="Cor">
+            <input type="text" id="tipo" placeholder="Tipo">
+            <input type="text" id="ano" placeholder="Ano">
+            <button onclick="filtrarTabela()">Filtrar</button>
+            <button id="btnAdicionarVeiculo" onclick="abrirModal()">Adicionar Veículo</button>
+        </div>
+        
+        <!-- Tabela -->
+        <table id="tabelaVeiculos">
+            <thead>
+                <tr>
+                    <th>Modelo</th>
+                    <th>Fabricante</th>
+                    <th>Ano</th>
+                    <th>Cor</th>
+                    <th>Tipo</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Os dados da tabela serão carregados aqui -->
+            </tbody>
+        </table>
+    </div>
+
+   <!-- Modal -->
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <button class="cancel" onclick="fecharModal()">×</button>
+        <h2>Adicionar Veículo</h2>
+        <input type="text" id="modalModelo" placeholder="Modelo">
+        <input type="text" id="modalFabricante" placeholder="Fabricante">
+        <input type="number" id="modalAno" placeholder="Ano">
+        <input type="text" id="modalCor" placeholder="Cor">
+        
+        <!-- Tipo agora é um select para escolher entre Carro ou Moto -->
+        <select id="modalTipo">
+            <option value="Carro">Carro</option>
+            <option value="Moto">Moto</option>
+        </select>
+
+        <!-- O botão "Salvar" agora fica fora da div modal-buttons, logo abaixo do campo Tipo -->
+        <button class="save" onclick="adicionarVeiculo()">Salvar</button>
+    </div>
+</div>
+
+
+    <script>
+        // Dados simulados de veículos
+        const veiculos = [
+            { modelo: "Fusca", fabricante: "Volkswagen", ano: 1985, cor: "Azul", tipo: "Carro" },
+            { modelo: "Hornet", fabricante: "Honda", ano: 2012, cor: "Preto", tipo: "Moto" },
+            { modelo: "Civic", fabricante: "Honda", ano: 2020, cor: "Branco", tipo: "Carro" },
+            { modelo: "XJ6", fabricante: "Yamaha", ano: 2015, cor: "Vermelho", tipo: "Moto" },
+        ];
+
+        // Função para carregar a tabela com os veículos
+        function carregarTabela(veiculosParaExibir = veiculos) {
+            const tabela = document.querySelector("#tabelaVeiculos tbody");
+            tabela.innerHTML = ""; // Limpa a tabela antes de adicionar novos dados
+
+            veiculosParaExibir.forEach((veiculo, index) => {
+                const tr = document.createElement("tr");
+
+                tr.innerHTML = `
+                    <td>${veiculo.modelo}</td>
+                    <td>${veiculo.fabricante}</td>
+                    <td>${veiculo.ano}</td>
+                    <td>${veiculo.cor}</td>
+                    <td>${veiculo.tipo}</td>
+                    <td class="actions">
+                        <button class="edit" onclick="editarVeiculo(${index})">Editar</button>
+                        <button class="details" onclick="detalharVeiculo(${index})">Detalhes</button>
+                        <button class="delete" onclick="excluirVeiculo(${index})">Excluir</button>
+                    </td>
+                `;
+                tabela.appendChild(tr);
+            });
+        }
+
+        // Função de filtro
+        function filtrarTabela() {
+            const modeloFiltro = document.getElementById("modelo").value.toLowerCase();
+            const corFiltro = document.getElementById("cor").value.toLowerCase();
+            const tipoFiltro = document.getElementById("tipo").value.toLowerCase();
+            const anoFiltro = document.getElementById("ano").value;
+
+            const veiculosFiltrados = veiculos.filter(veiculo => {
+                return (
+                    (modeloFiltro === "" || veiculo.modelo.toLowerCase().includes(modeloFiltro)) &&
+                    (corFiltro === "" || veiculo.cor.toLowerCase().includes(corFiltro)) &&
+                    (tipoFiltro === "" || veiculo.tipo.toLowerCase().includes(tipoFiltro)) &&
+                    (anoFiltro === "" || veiculo.ano.toString().includes(anoFiltro))
+                );
+            });
+
+            carregarTabela(veiculosFiltrados); // Atualiza a tabela com os dados filtrados
+        }
+
+        // Funções CRUD
+        function editarVeiculo(index) {
+            const veiculo = veiculos[index];
+            const novoModelo = prompt("Novo Modelo:", veiculo.modelo);
+            if (novoModelo) {
+                veiculo.modelo = novoModelo;
+                carregarTabela();
+            }
+        }
+
+        function detalharVeiculo(index) {
+            const veiculo = veiculos[index];
+            alert(`Detalhes do Veículo: \nModelo: ${veiculo.modelo}\nFabricante: ${veiculo.fabricante}\nAno: ${veiculo.ano}\nCor: ${veiculo.cor}\nTipo: ${veiculo.tipo}`);
+        }
+
+        function excluirVeiculo(index) {
+            if (confirm("Deseja excluir este veículo?")) {
+                veiculos.splice(index, 1); // Remove o veículo
+                carregarTabela(); // Atualiza a tabela
+            }
+        }
+
+        function adicionarVeiculo() {
+    const modelo = document.getElementById("modalModelo").value;
+    const fabricante = document.getElementById("modalFabricante").value;
+    const ano = document.getElementById("modalAno").value;
+    const cor = document.getElementById("modalCor").value;
+    const tipo = document.getElementById("modalTipo").value;
+
+    console.log("Valores capturados:", { modelo, fabricante, ano, cor, tipo });
+
+    if (modelo && fabricante && ano && cor && tipo) {
+        veiculos.push({ modelo, fabricante, ano: parseInt(ano), cor, tipo });
+        console.log("Veículo adicionado:", veiculos);
+        carregarTabela(); // Atualiza a tabela com o novo veículo
+        fecharModal(); // Fecha o modal após salvar
+    } else {
+        alert("Preencha todos os campos!");
+    }
+}
+
+
+        // Função para abrir o modal
+        function abrirModal() {
+            document.getElementById("modal").style.display = "block";
+        }
+
+        // Função para fechar o modal
+        function fecharModal() {
+            document.getElementById("modal").style.display = "none";
+            // Limpa os campos do modal
+            document.getElementById("modalModelo").value = "";
+            document.getElementById("modalFabricante").value = "";
+            document.getElementById("modalAno").value = "";
+            document.getElementById("modalCor").value = "";
+        }
+
+        // Carrega a tabela ao iniciar a página
+        carregarTabela();
+    </script>
+</body>
+
+</html>
