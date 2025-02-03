@@ -15,7 +15,6 @@ public class Veiculo {
     private int ano;
     private double preco;
 
-    // Construtores, getters e setters
     public Veiculo() {}
 
     public Veiculo(int id, String modelo, String fabricante, int ano, double preco) {
@@ -67,6 +66,6 @@ public class Veiculo {
     }
 
     public String getTipo() {
-        return "Veículo"; // Método genérico para retornar o tipo
+        return "Veículo"; 
     }
 }

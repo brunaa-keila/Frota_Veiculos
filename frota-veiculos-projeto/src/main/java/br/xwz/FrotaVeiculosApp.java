@@ -12,7 +12,7 @@ import br.xwz.model.Veiculo;
 public class FrotaVeiculosApp {
 
     public static void main(String[] args) {
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/frota_veiculos", "root", "@@Bruna0818");
+        try (Connection connection = DriverManager.getConnection("Sua_URL_Aqui", "Seu_Usuario_Aqui", "Sua_Senha_Aqui");
         ){
             
             VeiculoDAO veiculoDAO = new VeiculoDAO(connection);

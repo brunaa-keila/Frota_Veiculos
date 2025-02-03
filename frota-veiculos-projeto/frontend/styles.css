@@ -1,9 +1,11 @@
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f8f9fa;
     margin: 0;
     padding: 0;
 }
+
 
 .container {
     margin: 20px;
@@ -13,34 +15,104 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.filters {
-    margin-bottom: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6); 
+    padding: 20px;
 }
 
-.filters input {
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 14px;
-    width: 200px;
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%; 
+    max-width: 400px; 
+    border-radius: 8px;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
 }
 
-.filters button {
-    padding: 10px 20px;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: white;
-    border: none;
+
+.modal.show {
+    display: block !important;
+}
+
+
+.close {
+    color: red;
+    font-size: 28px; 
+    font-weight: bold;
     cursor: pointer;
-    font-size: 14px;
+    position: absolute; 
+    top: 10px; 
+    right: 10px;
+    z-index: 110; 
 }
 
-.filters button:hover {
-    background-color: #0056b3;
+.close:hover,
+.close:focus {
+    color: #333;
+    text-decoration: none;
 }
+
+
+.delete-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+
+.delete-buttons button {
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease; 
+}
+
+
+.delete-buttons .delete {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.delete-buttons .delete:hover {
+    background-color: #c82333;
+}
+
+.delete-buttons .cancel {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.delete-buttons .cancel:hover {
+    background-color: #5a6268;
+}
+
+
+.details-group p {
+    margin: 10px 0;
+    padding: 12px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #333;
+}
+
 
 table {
     width: 100%;
@@ -66,13 +138,43 @@ td {
     background-color: #f9f9f9;
 }
 
+
+.filters input {
+    padding: 12px 18px;
+    border-radius: 25px; 
+    border: 1px solid #ccc;
+    font-size: 16px;
+    width: 180px;
+}
+
+.filters button {
+    padding: 12px 24px;
+    border-radius: 25px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.filters button:hover {
+    background-color: #0056b3;
+}
+
+.filters button:active {
+    background-color: #004085;
+}
+
+
 .actions button {
-    padding: 5px 10px;
-    margin-right: 5px;
-    border-radius: 5px;
+    flex: 1;
+    padding: 12px 20px;
+    border-radius: 25px;
     cursor: pointer;
     border: none;
     color: white;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
 }
 
 .actions .edit {
@@ -91,97 +193,12 @@ td {
     opacity: 0.8;
 }
 
-/* Modal Styles */
-.modal {
-    display: none; /* Esconde o modal inicialmente */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Fundo transparente */
-}
-
-.modal-content {
-    background-color: #fff;
-    display: flex;
-    flex-direction: column; /* Organiza os elementos em coluna */
-    gap: 10px;
-    margin: 10% auto;
-    padding: 20px;
-    width: 300px;
-    border-radius: 10px;
-    position: relative; /* Garante que o botão 'X' ficará dentro do modal */
-}
-
-.modal h2 {
-    margin-top: 0;
-}
-
-.modal input, .modal select {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    border: 1px solid #000000;
-}
-
-/* Botão de Salvar com cor verde */
-.save {
-    background-color: #28a745; /* Cor verde */
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    width: 100%; /* Garantir que o botão "Salvar" ocupe toda a largura disponível */
-}
-
-/* Hover do botão salvar */
-.save:hover {
-    background-color: #218838; /* Cor mais escura quando passar o mouse */
-}
-
-/* Botão de cancelar */
-.cancel-btn {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.cancel-btn:hover {
-    background-color: #b52b2b;
-}
-
-/* Botão de fechar (X) */
-.cancel {
-    background: transparent;
-    border: none;
-    font-size: 24px;
-    color: #333;
-    cursor: pointer;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-}
-
-.cancel:hover {
-    background-color: #dc3545;
-    color: #fff;
-    border-radius: 5px;
-    padding: 5px;
-}
-
-/* Transições suaves */
-.cancel, .modal-buttons button {
-    transition: background-color 0.3s, transform 0.2s ease-in-out;
-}
-
-.cancel:hover, .modal-buttons button:hover {
-    transform: scale(1.05);
+.modal-content input[type="text"], .modal-content input[type="number"], .modal-content textarea {
+    width: 100%;  
+    padding: 8px; 
+    margin-bottom: 15px; 
+    border-radius: 5px;  
+    border: 1px solid #ccc; 
+    font-size: 14px; 
+    box-sizing: border-box;
 }

@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Veículos</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <div class="container">
-        <!-- Filtros -->
         <div class="filters">
             <input type="text" id="modelo" placeholder="Modelo">
             <input type="text" id="cor" placeholder="Cor">
@@ -17,8 +18,7 @@
             <button onclick="filtrarTabela()">Filtrar</button>
             <button id="btnAdicionarVeiculo" onclick="abrirModal()">Adicionar Veículo</button>
         </div>
-        
-        <!-- Tabela -->
+
         <table id="tabelaVeiculos">
             <thead>
                 <tr>
@@ -31,35 +31,93 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Os dados da tabela serão carregados aqui -->
+
             </tbody>
         </table>
     </div>
 
-   <!-- Modal -->
-<div id="modal" class="modal">
-    <div class="modal-content">
-        <button class="cancel" onclick="fecharModal()">×</button>
-        <h2>Adicionar Veículo</h2>
-        <input type="text" id="modalModelo" placeholder="Modelo">
-        <input type="text" id="modalFabricante" placeholder="Fabricante">
-        <input type="number" id="modalAno" placeholder="Ano">
-        <input type="text" id="modalCor" placeholder="Cor">
-        
-        <!-- Tipo agora é um select para escolher entre Carro ou Moto -->
-        <select id="modalTipo">
-            <option value="Carro">Carro</option>
-            <option value="Moto">Moto</option>
-        </select>
 
-        <!-- O botão "Salvar" agora fica fora da div modal-buttons, logo abaixo do campo Tipo -->
-        <button class="save" onclick="adicionarVeiculo()">Salvar</button>
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <button class="cancel" id="btnFecharModal" onclick="fecharModal()">×</button>
+            <h2>Adicionar Veículo</h2>
+            <input type="text" id="modalModelo" placeholder="Modelo">
+            <input type="text" id="modalFabricante" placeholder="Fabricante">
+            <input type="number" id="modalAno" placeholder="Ano">
+            <input type="text" id="modalCor" placeholder="Cor">
+
+            <select id="modalTipo">
+                <option value="Carro">Carro</option>
+                <option value="Moto">Moto</option>
+            </select>
+
+            <button class="save" onclick="adicionarVeiculo()">Salvar</button>
+        </div>
     </div>
-</div>
 
+
+    <div id="modalEditar" class="modal">
+        <div class="modal-content">
+            <button class="cancel" id="btnFecharModalEditar" onclick="fecharModalEditar()">×</button>
+            <h2>Editar Veículo</h2>
+            <div class="input-group">
+                <label for="editModelo">Modelo:</label>
+                <input type="text" id="editModelo" required>
+            </div>
+            <div class="input-group">
+                <label for="editFabricante">Fabricante:</label>
+                <input type="text" id="editFabricante" required>
+            </div>
+            <div class="input-group">
+                <label for="editAno">Ano:</label>
+                <input type="number" id="editAno" required>
+            </div>
+            <div class="input-group">
+                <label for="editCor">Cor:</label>
+                <input type="text" id="editCor" required>
+            </div>
+            <div class="input-group">
+                <label for="editTipo">Tipo:</label>
+                <select id="editTipo" required>
+                    <option value="Carro">Carro</option>
+                    <option value="Moto">Moto</option>
+                </select>
+            </div>
+            <button id="btnSalvarEditar">Salvar Alterações</button>
+        </div>
+    </div>
+
+ 
+    <div id="modalDetalhar" class="modal">
+        <div class="modal-content">
+            <button class="cancel" id="btnFecharModalDetalhar" onclick="fecharModalDetalhar()">×</button>
+            <h2>Detalhes do Veículo</h2>
+            <div class="details-group">
+                <p><strong>Modelo:</strong> <span id="detalhesModelo"></span></p>
+                <p><strong>Fabricante:</strong> <span id="detalhesFabricante"></span></p>
+                <p><strong>Ano:</strong> <span id="detalhesAno"></span></p>
+                <p><strong>Cor:</strong> <span id="detalhesCor"></span></p>
+                <p><strong>Tipo:</strong> <span id="detalhesTipo"></span></p>
+            </div>
+        </div>
+    </div>
+
+   
+    <div id="modalExcluir" class="modal">
+        <div class="modal-content">
+            <button class="cancel" id="btnFecharModalExcluir" onclick="fecharModalExcluir()">×</button>
+            <h2>Confirmar Exclusão</h2>
+            <div class="delete-group">
+                <p id="excluirMensagem"></p>
+                <div class="delete-buttons">
+                    <button id="btnConfirmarExcluir">Sim, Excluir</button>
+                    <button id="btnCancelarExcluir">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
-        // Dados simulados de veículos
         const veiculos = [
             { modelo: "Fusca", fabricante: "Volkswagen", ano: 1985, cor: "Azul", tipo: "Carro" },
             { modelo: "Hornet", fabricante: "Honda", ano: 2012, cor: "Preto", tipo: "Moto" },
@@ -67,10 +125,9 @@
             { modelo: "XJ6", fabricante: "Yamaha", ano: 2015, cor: "Vermelho", tipo: "Moto" },
         ];
 
-        // Função para carregar a tabela com os veículos
         function carregarTabela(veiculosParaExibir = veiculos) {
             const tabela = document.querySelector("#tabelaVeiculos tbody");
-            tabela.innerHTML = ""; // Limpa a tabela antes de adicionar novos dados
+            tabela.innerHTML = "";
 
             veiculosParaExibir.forEach((veiculo, index) => {
                 const tr = document.createElement("tr");
@@ -91,7 +148,6 @@
             });
         }
 
-        // Função de filtro
         function filtrarTabela() {
             const modeloFiltro = document.getElementById("modelo").value.toLowerCase();
             const corFiltro = document.getElementById("cor").value.toLowerCase();
@@ -107,67 +163,89 @@
                 );
             });
 
-            carregarTabela(veiculosFiltrados); // Atualiza a tabela com os dados filtrados
+            carregarTabela(veiculosFiltrados);
         }
 
-        // Funções CRUD
         function editarVeiculo(index) {
             const veiculo = veiculos[index];
-            const novoModelo = prompt("Novo Modelo:", veiculo.modelo);
-            if (novoModelo) {
-                veiculo.modelo = novoModelo;
+            document.getElementById("editModelo").value = veiculo.modelo;
+            document.getElementById("editFabricante").value = veiculo.fabricante;
+            document.getElementById("editAno").value = veiculo.ano;
+            document.getElementById("editCor").value = veiculo.cor;
+            document.getElementById("editTipo").value = veiculo.tipo;
+
+            const modalEditar = document.getElementById("modalEditar");
+            modalEditar.style.display = "block";
+
+            const btnSalvarEditar = document.getElementById("btnSalvarEditar");
+            btnSalvarEditar.onclick = () => {
+                veiculo.modelo = document.getElementById("editModelo").value;
+                veiculo.fabricante = document.getElementById("editFabricante").value;
+                veiculo.ano = parseInt(document.getElementById("editAno").value);
+                veiculo.cor = document.getElementById("editCor").value;
+                veiculo.tipo = document.getElementById("editTipo").value;
                 carregarTabela();
-            }
+                fecharModalEditar();
+            };
         }
 
         function detalharVeiculo(index) {
             const veiculo = veiculos[index];
-            alert(`Detalhes do Veículo: \nModelo: ${veiculo.modelo}\nFabricante: ${veiculo.fabricante}\nAno: ${veiculo.ano}\nCor: ${veiculo.cor}\nTipo: ${veiculo.tipo}`);
+            document.getElementById("detalhesModelo").innerText = veiculo.modelo;
+            document.getElementById("detalhesFabricante").innerText = veiculo.fabricante;
+            document.getElementById("detalhesAno").innerText = veiculo.ano;
+            document.getElementById("detalhesCor").innerText = veiculo.cor;
+            document.getElementById("detalhesTipo").innerText = veiculo.tipo;
+
+            const modalDetalhar = document.getElementById("modalDetalhar");
+            modalDetalhar.style.display = "block";
         }
 
         function excluirVeiculo(index) {
-            if (confirm("Deseja excluir este veículo?")) {
-                veiculos.splice(index, 1); // Remove o veículo
-                carregarTabela(); // Atualiza a tabela
-            }
+            const veiculo = veiculos[index];
+            document.getElementById("excluirMensagem").innerText = `Deseja excluir o veículo ${veiculo.modelo}?`;
+            const modalExcluir = document.getElementById("modalExcluir");
+            modalExcluir.style.display = "block";
+
+            document.getElementById("btnConfirmarExcluir").onclick = () => {
+                veiculos.splice(index, 1);
+                carregarTabela();
+                fecharModalExcluir();
+            };
         }
 
-        function adicionarVeiculo() {
-    const modelo = document.getElementById("modalModelo").value;
-    const fabricante = document.getElementById("modalFabricante").value;
-    const ano = document.getElementById("modalAno").value;
-    const cor = document.getElementById("modalCor").value;
-    const tipo = document.getElementById("modalTipo").value;
-
-    console.log("Valores capturados:", { modelo, fabricante, ano, cor, tipo });
-
-    if (modelo && fabricante && ano && cor && tipo) {
-        veiculos.push({ modelo, fabricante, ano: parseInt(ano), cor, tipo });
-        console.log("Veículo adicionado:", veiculos);
-        carregarTabela(); // Atualiza a tabela com o novo veículo
-        fecharModal(); // Fecha o modal após salvar
-    } else {
-        alert("Preencha todos os campos!");
-    }
-}
-
-
-        // Função para abrir o modal
         function abrirModal() {
             document.getElementById("modal").style.display = "block";
         }
 
-        // Função para fechar o modal
         function fecharModal() {
             document.getElementById("modal").style.display = "none";
-            // Limpa os campos do modal
-            document.getElementById("modalModelo").value = "";
-            document.getElementById("modalFabricante").value = "";
-            document.getElementById("modalAno").value = "";
-            document.getElementById("modalCor").value = "";
         }
 
-        // Carrega a tabela ao iniciar a página
+        function fecharModalEditar() {
+            document.getElementById("modalEditar").style.display = "none";
+        }
+
+        function fecharModalDetalhar() {
+            document.getElementById("modalDetalhar").style.display = "none";
+        }
+
+        function fecharModalExcluir() {
+            document.getElementById("modalExcluir").style.display = "none";
+        }
+
+        function adicionarVeiculo() {
+            const modelo = document.getElementById("modalModelo").value;
+            const fabricante = document.getElementById("modalFabricante").value;
+            const ano = parseInt(document.getElementById("modalAno").value);
+            const cor = document.getElementById("modalCor").value;
+            const tipo = document.getElementById("modalTipo").value;
+
+            veiculos.push({ modelo, fabricante, ano, cor, tipo });
+            carregarTabela();
+            fecharModal();
+        }
+
         carregarTabela();
     </script>
 </body>

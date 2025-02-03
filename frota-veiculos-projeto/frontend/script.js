@@ -1,4 +1,6 @@
-// Dados simulados de veículos
+
+
+
 const veiculos = [
     { modelo: "Fusca", fabricante: "Volkswagen", ano: 1985, cor: "Azul", tipo: "Carro" },
     { modelo: "Hornet", fabricante: "Honda", ano: 2012, cor: "Preto", tipo: "Moto" },
@@ -6,10 +8,10 @@ const veiculos = [
     { modelo: "XJ6", fabricante: "Yamaha", ano: 2015, cor: "Vermelho", tipo: "Moto" },
 ];
 
-// Função para carregar a tabela com os veículos
+
 function carregarTabela(veiculosParaExibir = veiculos) {
     const tabela = document.querySelector("#tabelaVeiculos tbody");
-    tabela.innerHTML = ""; // Limpa a tabela antes de adicionar novos dados
+    tabela.innerHTML = "";
 
     veiculosParaExibir.forEach((veiculo, index) => {
         const tr = document.createElement("tr");
@@ -26,37 +28,96 @@ function carregarTabela(veiculosParaExibir = veiculos) {
                 <button class="delete" onclick="excluirVeiculo(${index})">Excluir</button>
             </td>
         `;
-
         tabela.appendChild(tr);
     });
 }
 
-// Funções CRUD
+
+function abrirModal() {
+    modal.classList.add('show');
+    document.querySelector('.container').classList.add('blur');
+}
+
+
+function fecharModal() {
+    modal.classList.remove('show');
+    document.querySelector('.container').classList.remove('blur');
+}
+
+
 function editarVeiculo(index) {
     const veiculo = veiculos[index];
-    const novoModelo = prompt("Novo Modelo:", veiculo.modelo);
-    if (novoModelo) {
-        veiculo.modelo = novoModelo;
+    const modalEditar = document.getElementById('modalEditar');
+    
+    modalEditar.classList.add('show');
+    const btnFecharModalEditar = document.getElementById('btnFecharModalEditar');
+
+    const inputModelo = document.getElementById("editModelo");
+    const inputFabricante = document.getElementById("editFabricante");
+    const inputAno = document.getElementById("editAno");
+    const inputCor = document.getElementById("editCor");
+    const inputTipo = document.getElementById("editTipo");
+
+    inputModelo.value = veiculo.modelo;
+    inputFabricante.value = veiculo.fabricante;
+    inputAno.value = veiculo.ano;
+    inputCor.value = veiculo.cor;
+    inputTipo.value = veiculo.tipo;
+
+    btnFecharModalEditar.addEventListener("click", () => {
+        modalEditar.classList.remove('show');
+    });
+
+   
+    document.getElementById('btnSalvarEditar').addEventListener("click", () => {
+        veiculo.modelo = inputModelo.value;
+        veiculo.fabricante = inputFabricante.value;
+        veiculo.ano = parseInt(inputAno.value);
+        veiculo.cor = inputCor.value;
+        veiculo.tipo = inputTipo.value;
         carregarTabela();
-    }
+        modalEditar.classList.remove('show');
+    });
 }
+
 
 function detalharVeiculo(index) {
     const veiculo = veiculos[index];
-    alert(`Detalhes do veículo:
-    Modelo: ${veiculo.modelo}
-    Fabricante: ${veiculo.fabricante}
-    Ano: ${veiculo.ano}
-    Cor: ${veiculo.cor}
-    Tipo: ${veiculo.tipo}`);
+    const modalDetalhar = document.getElementById('modalDetalhar');
+    modalDetalhar.classList.add('show');
+    const btnFecharModalDetalhar = document.getElementById('btnFecharModalDetalhar');
+
+    document.getElementById('detalhesModelo').innerText = veiculo.modelo;
+    document.getElementById('detalhesFabricante').innerText = veiculo.fabricante;
+    document.getElementById('detalhesAno').innerText = veiculo.ano;
+    document.getElementById('detalhesCor').innerText = veiculo.cor;
+    document.getElementById('detalhesTipo').innerText = veiculo.tipo;
+
+    btnFecharModalDetalhar.addEventListener("click", () => {
+        modalDetalhar.classList.remove('show');
+    });
 }
 
+
 function excluirVeiculo(index) {
-    if (confirm("Tem certeza que deseja excluir este veículo?")) {
+    const veiculo = veiculos[index];
+    const modalExcluir = document.getElementById('modalExcluir');
+    modalExcluir.classList.add('show');
+    const btnFecharModalExcluir = document.getElementById('btnFecharModalExcluir');
+
+    document.getElementById('excluirMensagem').innerText = `Tem certeza que deseja excluir o veículo ${veiculo.modelo}?`;
+
+    btnFecharModalExcluir.addEventListener("click", () => {
+        modalExcluir.classList.remove('show');
+    });
+
+    document.getElementById('btnConfirmarExcluir').addEventListener("click", () => {
         veiculos.splice(index, 1);
         carregarTabela();
-    }
+        modalExcluir.classList.remove('show');
+    });
 }
+
 
 function adicionarVeiculo() {
     const modelo = document.getElementById("modalModelo").value;
@@ -66,27 +127,16 @@ function adicionarVeiculo() {
     const tipo = document.getElementById("modalTipo").value;
 
     if (modelo && fabricante && ano && cor && tipo) {
-        // Cria o novo veículo
         const novoVeiculo = { modelo, fabricante, ano: parseInt(ano), cor, tipo };
-
-        // Verifica se já existe um array de veículos no localStorage
         const veiculosSalvos = JSON.parse(localStorage.getItem('veiculos')) || [];
-        
-        // Adiciona o novo veículo ao array
         veiculosSalvos.push(novoVeiculo);
-        
-        // Salva novamente no localStorage
         localStorage.setItem('veiculos', JSON.stringify(veiculosSalvos));
-
-        // Atualiza a tabela com o novo veículo
-        carregarTabela(veiculosSalvos); 
-
-        fecharModal(); // Fecha o modal após salvar
+        carregarTabela(veiculosSalvos);
+        fecharModal();
     }
 }
 
 
-// Filtro da tabela
 function filtrarTabela() {
     const tipoFiltro = document.getElementById("tipo").value.toLowerCase();
     const corFiltro = document.getElementById("cor").value.toLowerCase();
@@ -102,44 +152,36 @@ function filtrarTabela() {
         );
     });
 
-    // Atualiza a tabela com os dados filtrados
     carregarTabela(veiculosFiltrados);
 }
 
-// Função para abrir o modal
-function abrirModal() {
-    modal.classList.add('show'); // Adiciona a classe 'show' ao modal
-    document.querySelector('.container').classList.add('blur'); // Adiciona o desfoque ao conteúdo
-}
+document.addEventListener('click', (event) => {
+    const modais = ['modalEditar', 'modalDetalhar', 'modalExcluir'];
+    modais.forEach(modalId => {
+        const modal = document.getElementById(modalId);
+        if (event.target === modal) {
+            modal.classList.remove('show');
+            document.querySelector('.container').classList.remove('blur');
+        }
+    });
+});
 
-// Função para fechar o modal
-function fecharModal() {
-    modal.classList.remove('show'); // Remove a classe 'show' ao modal
-    document.querySelector('.container').classList.remove('blur'); // Remove o desfoque do conteúdo
-}
 
-// Referência ao botão de adicionar e ao modal
 const btnAdicionar = document.getElementById("btnAdicionarVeiculo");
 const modal = document.getElementById("modal");
 const btnFecharModal = document.getElementById("btnFecharModal");
-
-// Ação de adicionar veículo abre o modal
 btnAdicionar.addEventListener("click", abrirModal);
-
-// Ação de fechar o modal
 btnFecharModal.addEventListener("click", fecharModal);
 
-// Fecha o modal ao clicar fora dele
 window.addEventListener("click", (event) => {
     if (event.target === modal || event.target === btnFecharModal) {
         fecharModal();
     }
 });
 
-// Inicializa a tabela e o filtro
+
 document.addEventListener("DOMContentLoaded", () => {
     carregarTabela();
-    // Inicializa os filtros
     const filtroTipo = document.getElementById("tipo");
     const filtroCor = document.getElementById("cor");
     const filtroModelo = document.getElementById("modelo");
@@ -149,4 +191,9 @@ document.addEventListener("DOMContentLoaded", () => {
     filtroCor.addEventListener("input", filtrarTabela);
     filtroModelo.addEventListener("input", filtrarTabela);
     filtroAno.addEventListener("input", filtrarTabela);
-});
+}
+
+
+
+
+);
