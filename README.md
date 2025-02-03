@@ -22,4 +22,17 @@ java –version
 
 #Tela de Cadastro
 
-![Captura de tela 2025-02-02 100245](https://github.com/user-attachments/assets/08aca444-ab4c-41a8-b767-3bcbe9a9f545)
+![fasfgasf](https://github.com/user-attachments/assets/35083ce9-31cf-49d4-93df-0d40521c49de)
+
+#Tela de Exclusão 
+
+![Captura de tela 2025-02-02 234346](https://github.com/user-attachments/assets/b75bf0f2-1165-4bd5-8f95-fbf1c45a46b0)
+
+#Tela de detalhes 
+
+![ddddfsdfsfdsf](https://github.com/user-attachments/assets/c53662c8-cc15-40bb-80c8-779863379969)
+
+#Tela de Edição 
+
+![Captura de tela 2025-02-02 235143](https://github.com/user-attachments/assets/2bb54bf3-fde7-4c2e-9101-8c315a725bda)
+
