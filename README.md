@@ -14,7 +14,6 @@ O projeto requer o JDK para compilar e rodar a aplicação. O JDK inclui ferrame
 
 java –version
 
-### 2 ** Coloque seu usuário e senha do seu banco.**
 
 # Tela Inicial
 
