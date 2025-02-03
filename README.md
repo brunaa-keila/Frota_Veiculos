@@ -3,7 +3,7 @@
 Este projeto é um sistema de gerenciamento de frota de veículos desenvolvido em Java, utilizando o Maven para gerenciamento de dependências e construção do projeto. O objetivo é permitir o controle de veículos de uma frota, facilitando o cadastro, atualização, e remoção dos veículos da frota, além de fornecer informações detalhadas sobre cada um deles.
 
 ## Requisitos
-
+### **OBS : Rode o arquivo index.html que está dentro da pasta frontend**
 Antes de rodar o projeto, certifique-se de que você tem os seguintes requisitos instalados em sua máquina:
 
 ### 1. **Java Development Kit (JDK) 11 ou superior**
