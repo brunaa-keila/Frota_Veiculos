@@ -36,3 +36,7 @@ java –version
 
 ![Captura de tela 2025-02-02 235143](https://github.com/user-attachments/assets/2bb54bf3-fde7-4c2e-9101-8c315a725bda)
 
+Observações:
+1- por falta de tempo Não consegui criar a API para armazenamento a longo prazo das informações cadastradas ao longo da execução.
+2- EStou trabalhando como freelancer e estudando no momento, por isso a falta de tempo, fiz esse projeto durante o final de semana.
+3- Caso consiga esta vaga, pararia com o trabalho freelancer.
