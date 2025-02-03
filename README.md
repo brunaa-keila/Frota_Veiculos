@@ -17,7 +17,8 @@ java –version
 
 # Tela Inicial
 
-![Captura de tela 2025-02-02 100215](https://github.com/user-attachments/assets/22b96bbd-10f6-4a95-8bdb-af7a1c93b266)
+![Captura de tela 2025-02-02 235354](https://github.com/user-attachments/assets/9d70d058-d3f3-4a37-b6b7-3b2746c1042b)
+
 
 #Tela de Cadastro
 
